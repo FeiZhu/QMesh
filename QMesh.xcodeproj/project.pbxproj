@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		942031331772143100833C47 /* QMeshRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 942031321772143100833C47 /* QMeshRender.m */; };
+		9450860E176AEE2E0077DA89 /* QGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 9450860D176AEE2E0077DA89 /* QGroup.m */; };
+		94508611176AF6320077DA89 /* QMaterial.m in Sources */ = {isa = PBXBuildFile; fileRef = 94508610176AF6320077DA89 /* QMaterial.m */; };
+		9477AA0E176A051700936B02 /* QVertex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9477AA0D176A051700936B02 /* QVertex.m */; };
+		9477AA11176A0B9000936B02 /* QFace.m in Sources */ = {isa = PBXBuildFile; fileRef = 9477AA10176A0B9000936B02 /* QFace.m */; };
+		9477AA14176A0CEE00936B02 /* QVec3d.m in Sources */ = {isa = PBXBuildFile; fileRef = 9477AA13176A0CEE00936B02 /* QVec3d.m */; };
+		94B7F9EB175DD4C90032E64D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B7F9EA175DD4C90032E64D /* UIKit.framework */; };
+		94B7F9ED175DD4C90032E64D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B7F9EC175DD4C90032E64D /* Foundation.framework */; };
+		94B7F9EF175DD4C90032E64D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B7F9EE175DD4C90032E64D /* CoreGraphics.framework */; };
+		94B7F9F5175DD4C90032E64D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94B7F9F3175DD4C90032E64D /* InfoPlist.strings */; };
+		94B7F9F7175DD4C90032E64D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7F9F6175DD4C90032E64D /* main.m */; };
+		94B7F9FB175DD4C90032E64D /* QAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7F9FA175DD4C90032E64D /* QAppDelegate.m */; };
+		94B7F9FD175DD4C90032E64D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B7F9FC175DD4C90032E64D /* Default.png */; };
+		94B7F9FF175DD4C90032E64D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B7F9FE175DD4C90032E64D /* Default@2x.png */; };
+		94B7FA01175DD4C90032E64D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B7FA00175DD4C90032E64D /* Default-568h@2x.png */; };
+		94B7FA04175DD4C90032E64D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94B7FA02175DD4C90032E64D /* MainStoryboard.storyboard */; };
+		94B7FA07175DD4C90032E64D /* QFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA06175DD4C90032E64D /* QFileViewController.m */; };
+		94B7FA0A175DD4C90032E64D /* QMeshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA09175DD4C90032E64D /* QMeshViewController.m */; };
+		94B7FA12175DF42A0032E64D /* QMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA11175DF42A0032E64D /* QMesh.m */; };
+		94B7FA15175E2C270032E64D /* QMeshLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA14175E2C270032E64D /* QMeshLoader.m */; };
+		94B7FA18175E2C520032E64D /* QSphericalCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA17175E2C520032E64D /* QSphericalCamera.m */; };
+		94B7FA1B175E2C720032E64D /* QObjMeshLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA1A175E2C720032E64D /* QObjMeshLoader.m */; };
+		94C726E7176EFE3500374A60 /* QDDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C726E6176EFE3500374A60 /* QDDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		94C952D317796DC500721CDF /* QVertexFaceNeighbor.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C952D217796DC500721CDF /* QVertexFaceNeighbor.m */; };
+		94CBC996176C4A880063D29E /* QVec3dUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CBC995176C4A880063D29E /* QVec3dUtility.m */; };
+		94EFF0121765980D00E6DC1D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EFF0111765980D00E6DC1D /* OpenGLES.framework */; };
+		94EFF0141765981A00E6DC1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EFF0131765981A00E6DC1D /* QuartzCore.framework */; };
+		94EFF0171765C70400E6DC1D /* QMeshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFF0161765C70400E6DC1D /* QMeshView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		942031311772143100833C47 /* QMeshRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMeshRender.h; sourceTree = "<group>"; };
+		942031321772143100833C47 /* QMeshRender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMeshRender.m; sourceTree = "<group>"; };
+		9450860C176AEE2E0077DA89 /* QGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QGroup.h; sourceTree = "<group>"; };
+		9450860D176AEE2E0077DA89 /* QGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QGroup.m; sourceTree = "<group>"; };
+		9450860F176AF6320077DA89 /* QMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMaterial.h; sourceTree = "<group>"; };
+		94508610176AF6320077DA89 /* QMaterial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMaterial.m; sourceTree = "<group>"; };
+		9477AA0C176A051700936B02 /* QVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QVertex.h; sourceTree = "<group>"; };
+		9477AA0D176A051700936B02 /* QVertex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QVertex.m; sourceTree = "<group>"; };
+		9477AA0F176A0B9000936B02 /* QFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QFace.h; sourceTree = "<group>"; };
+		9477AA10176A0B9000936B02 /* QFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QFace.m; sourceTree = "<group>"; };
+		9477AA12176A0CEE00936B02 /* QVec3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QVec3d.h; sourceTree = "<group>"; };
+		9477AA13176A0CEE00936B02 /* QVec3d.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QVec3d.m; sourceTree = "<group>"; };
+		94B7F9E7175DD4C90032E64D /* QMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B7F9EA175DD4C90032E64D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		94B7F9EC175DD4C90032E64D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		94B7F9EE175DD4C90032E64D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		94B7F9F2175DD4C90032E64D /* QMesh-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QMesh-Info.plist"; sourceTree = "<group>"; };
+		94B7F9F4175DD4C90032E64D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94B7F9F6175DD4C90032E64D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		94B7F9F8175DD4C90032E64D /* QMesh-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QMesh-Prefix.pch"; sourceTree = "<group>"; };
+		94B7F9F9175DD4C90032E64D /* QAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QAppDelegate.h; sourceTree = "<group>"; };
+		94B7F9FA175DD4C90032E64D /* QAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QAppDelegate.m; sourceTree = "<group>"; };
+		94B7F9FC175DD4C90032E64D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		94B7F9FE175DD4C90032E64D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		94B7FA00175DD4C90032E64D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		94B7FA03175DD4C90032E64D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		94B7FA05175DD4C90032E64D /* QFileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QFileViewController.h; sourceTree = "<group>"; };
+		94B7FA06175DD4C90032E64D /* QFileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QFileViewController.m; sourceTree = "<group>"; };
+		94B7FA08175DD4C90032E64D /* QMeshViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QMeshViewController.h; sourceTree = "<group>"; };
+		94B7FA09175DD4C90032E64D /* QMeshViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QMeshViewController.m; sourceTree = "<group>"; };
+		94B7FA10175DF42A0032E64D /* QMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMesh.h; sourceTree = "<group>"; };
+		94B7FA11175DF42A0032E64D /* QMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMesh.m; sourceTree = "<group>"; };
+		94B7FA13175E2C270032E64D /* QMeshLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMeshLoader.h; sourceTree = "<group>"; };
+		94B7FA14175E2C270032E64D /* QMeshLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMeshLoader.m; sourceTree = "<group>"; };
+		94B7FA16175E2C520032E64D /* QSphericalCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSphericalCamera.h; sourceTree = "<group>"; };
+		94B7FA17175E2C520032E64D /* QSphericalCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSphericalCamera.m; sourceTree = "<group>"; };
+		94B7FA19175E2C720032E64D /* QObjMeshLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QObjMeshLoader.h; sourceTree = "<group>"; };
+		94B7FA1A175E2C720032E64D /* QObjMeshLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QObjMeshLoader.m; sourceTree = "<group>"; };
+		94C726E5176EFE3500374A60 /* QDDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDDFileReader.h; sourceTree = "<group>"; };
+		94C726E6176EFE3500374A60 /* QDDFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDDFileReader.m; sourceTree = "<group>"; };
+		94C952D117796DC500721CDF /* QVertexFaceNeighbor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QVertexFaceNeighbor.h; sourceTree = "<group>"; };
+		94C952D217796DC500721CDF /* QVertexFaceNeighbor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QVertexFaceNeighbor.m; sourceTree = "<group>"; };
+		94CBC994176C4A880063D29E /* QVec3dUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QVec3dUtility.h; sourceTree = "<group>"; };
+		94CBC995176C4A880063D29E /* QVec3dUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QVec3dUtility.m; sourceTree = "<group>"; };
+		94EFF0111765980D00E6DC1D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		94EFF0131765981A00E6DC1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		94EFF0151765C70400E6DC1D /* QMeshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMeshView.h; sourceTree = "<group>"; };
+		94EFF0161765C70400E6DC1D /* QMeshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMeshView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		94B7F9E4175DD4C90032E64D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94EFF0141765981A00E6DC1D /* QuartzCore.framework in Frameworks */,
+				94EFF0121765980D00E6DC1D /* OpenGLES.framework in Frameworks */,
+				94B7F9EB175DD4C90032E64D /* UIKit.framework in Frameworks */,
+				94B7F9ED175DD4C90032E64D /* Foundation.framework in Frameworks */,
+				94B7F9EF175DD4C90032E64D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9420312F1772137200833C47 /* MeshLoader */ = {
+			isa = PBXGroup;
+			children = (
+				94B7FA13175E2C270032E64D /* QMeshLoader.h */,
+				94B7FA14175E2C270032E64D /* QMeshLoader.m */,
+				94B7FA19175E2C720032E64D /* QObjMeshLoader.h */,
+				94B7FA1A175E2C720032E64D /* QObjMeshLoader.m */,
+			);
+			name = MeshLoader;
+			sourceTree = "<group>";
+		};
+		94203130177213D900833C47 /* MeshRender */ = {
+			isa = PBXGroup;
+			children = (
+				942031311772143100833C47 /* QMeshRender.h */,
+				942031321772143100833C47 /* QMeshRender.m */,
+			);
+			name = MeshRender;
+			sourceTree = "<group>";
+		};
+		9450860B176AED6D0077DA89 /* Mesh */ = {
+			isa = PBXGroup;
+			children = (
+				94B7FA10175DF42A0032E64D /* QMesh.h */,
+				94B7FA11175DF42A0032E64D /* QMesh.m */,
+				9477AA0C176A051700936B02 /* QVertex.h */,
+				9477AA0D176A051700936B02 /* QVertex.m */,
+				9477AA0F176A0B9000936B02 /* QFace.h */,
+				9477AA10176A0B9000936B02 /* QFace.m */,
+				9450860C176AEE2E0077DA89 /* QGroup.h */,
+				9450860D176AEE2E0077DA89 /* QGroup.m */,
+				9450860F176AF6320077DA89 /* QMaterial.h */,
+				94508610176AF6320077DA89 /* QMaterial.m */,
+				94C952D117796DC500721CDF /* QVertexFaceNeighbor.h */,
+				94C952D217796DC500721CDF /* QVertexFaceNeighbor.m */,
+			);
+			name = Mesh;
+			sourceTree = "<group>";
+		};
+		94B7F9DE175DD4C90032E64D = {
+			isa = PBXGroup;
+			children = (
+				94B7F9F0175DD4C90032E64D /* QMesh */,
+				94B7F9F1175DD4C90032E64D /* Supporting Files */,
+				94B7F9E9175DD4C90032E64D /* Frameworks */,
+				94B7F9E8175DD4C90032E64D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		94B7F9E8175DD4C90032E64D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				94B7F9E7175DD4C90032E64D /* QMesh.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		94B7F9E9175DD4C90032E64D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				94EFF0131765981A00E6DC1D /* QuartzCore.framework */,
+				94EFF0111765980D00E6DC1D /* OpenGLES.framework */,
+				94B7F9EA175DD4C90032E64D /* UIKit.framework */,
+				94B7F9EC175DD4C90032E64D /* Foundation.framework */,
+				94B7F9EE175DD4C90032E64D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		94B7F9F0175DD4C90032E64D /* QMesh */ = {
+			isa = PBXGroup;
+			children = (
+				94C952D41779C59700721CDF /* Vec3d */,
+				94CE8D571776D3C30097DAA8 /* Camera */,
+				9450860B176AED6D0077DA89 /* Mesh */,
+				94203130177213D900833C47 /* MeshRender */,
+				9420312F1772137200833C47 /* MeshLoader */,
+				94B7F9F9175DD4C90032E64D /* QAppDelegate.h */,
+				94B7F9FA175DD4C90032E64D /* QAppDelegate.m */,
+				94B7FA02175DD4C90032E64D /* MainStoryboard.storyboard */,
+				94B7FA05175DD4C90032E64D /* QFileViewController.h */,
+				94B7FA06175DD4C90032E64D /* QFileViewController.m */,
+				94B7FA08175DD4C90032E64D /* QMeshViewController.h */,
+				94B7FA09175DD4C90032E64D /* QMeshViewController.m */,
+				94EFF0151765C70400E6DC1D /* QMeshView.h */,
+				94EFF0161765C70400E6DC1D /* QMeshView.m */,
+				94C726E5176EFE3500374A60 /* QDDFileReader.h */,
+				94C726E6176EFE3500374A60 /* QDDFileReader.m */,
+			);
+			path = QMesh;
+			sourceTree = "<group>";
+		};
+		94B7F9F1175DD4C90032E64D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94B7F9F2175DD4C90032E64D /* QMesh-Info.plist */,
+				94B7F9F3175DD4C90032E64D /* InfoPlist.strings */,
+				94B7F9F6175DD4C90032E64D /* main.m */,
+				94B7F9F8175DD4C90032E64D /* QMesh-Prefix.pch */,
+				94B7F9FC175DD4C90032E64D /* Default.png */,
+				94B7F9FE175DD4C90032E64D /* Default@2x.png */,
+				94B7FA00175DD4C90032E64D /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			path = QMesh;
+			sourceTree = "<group>";
+		};
+		94C952D41779C59700721CDF /* Vec3d */ = {
+			isa = PBXGroup;
+			children = (
+				9477AA12176A0CEE00936B02 /* QVec3d.h */,
+				9477AA13176A0CEE00936B02 /* QVec3d.m */,
+				94CBC994176C4A880063D29E /* QVec3dUtility.h */,
+				94CBC995176C4A880063D29E /* QVec3dUtility.m */,
+			);
+			name = Vec3d;
+			sourceTree = "<group>";
+		};
+		94CE8D571776D3C30097DAA8 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				94B7FA16175E2C520032E64D /* QSphericalCamera.h */,
+				94B7FA17175E2C520032E64D /* QSphericalCamera.m */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		94B7F9E6175DD4C90032E64D /* QMesh */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94B7FA0D175DD4C90032E64D /* Build configuration list for PBXNativeTarget "QMesh" */;
+			buildPhases = (
+				94B7F9E3175DD4C90032E64D /* Sources */,
+				94B7F9E4175DD4C90032E64D /* Frameworks */,
+				94B7F9E5175DD4C90032E64D /* Resources */,
+				940F7969177CB07A0054A694 /* Run Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QMesh;
+			productName = QMesh;
+			productReference = 94B7F9E7175DD4C90032E64D /* QMesh.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		94B7F9DF175DD4C90032E64D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = piggy;
+			};
+			buildConfigurationList = 94B7F9E2175DD4C90032E64D /* Build configuration list for PBXProject "QMesh" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 94B7F9DE175DD4C90032E64D;
+			productRefGroup = 94B7F9E8175DD4C90032E64D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				94B7F9E6175DD4C90032E64D /* QMesh */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		94B7F9E5175DD4C90032E64D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94B7F9F5175DD4C90032E64D /* InfoPlist.strings in Resources */,
+				94B7F9FD175DD4C90032E64D /* Default.png in Resources */,
+				94B7F9FF175DD4C90032E64D /* Default@2x.png in Resources */,
+				94B7FA01175DD4C90032E64D /* Default-568h@2x.png in Resources */,
+				94B7FA04175DD4C90032E64D /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		940F7969177CB07A0054A694 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ] || [ \"${PLATFORM_NAME}\" == \"ipados\" ]; then\n/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py \"my.company.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		94B7F9E3175DD4C90032E64D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94B7F9F7175DD4C90032E64D /* main.m in Sources */,
+				94B7F9FB175DD4C90032E64D /* QAppDelegate.m in Sources */,
+				94B7FA07175DD4C90032E64D /* QFileViewController.m in Sources */,
+				94B7FA0A175DD4C90032E64D /* QMeshViewController.m in Sources */,
+				94B7FA12175DF42A0032E64D /* QMesh.m in Sources */,
+				94B7FA15175E2C270032E64D /* QMeshLoader.m in Sources */,
+				94B7FA18175E2C520032E64D /* QSphericalCamera.m in Sources */,
+				94B7FA1B175E2C720032E64D /* QObjMeshLoader.m in Sources */,
+				94EFF0171765C70400E6DC1D /* QMeshView.m in Sources */,
+				9477AA0E176A051700936B02 /* QVertex.m in Sources */,
+				9477AA11176A0B9000936B02 /* QFace.m in Sources */,
+				9477AA14176A0CEE00936B02 /* QVec3d.m in Sources */,
+				9450860E176AEE2E0077DA89 /* QGroup.m in Sources */,
+				94508611176AF6320077DA89 /* QMaterial.m in Sources */,
+				94CBC996176C4A880063D29E /* QVec3dUtility.m in Sources */,
+				94C726E7176EFE3500374A60 /* QDDFileReader.m in Sources */,
+				942031331772143100833C47 /* QMeshRender.m in Sources */,
+				94C952D317796DC500721CDF /* QVertexFaceNeighbor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		94B7F9F3175DD4C90032E64D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94B7F9F4175DD4C90032E64D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94B7FA02175DD4C90032E64D /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94B7FA03175DD4C90032E64D /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		94B7FA0B175DD4C90032E64D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		94B7FA0C175DD4C90032E64D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		94B7FA0E175DD4C90032E64D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QMesh/QMesh-Prefix.pch";
+				INFOPLIST_FILE = "QMesh/QMesh-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		94B7FA0F175DD4C90032E64D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QMesh/QMesh-Prefix.pch";
+				INFOPLIST_FILE = "QMesh/QMesh-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		94B7F9E2175DD4C90032E64D /* Build configuration list for PBXProject "QMesh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94B7FA0B175DD4C90032E64D /* Debug */,
+				94B7FA0C175DD4C90032E64D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94B7FA0D175DD4C90032E64D /* Build configuration list for PBXNativeTarget "QMesh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94B7FA0E175DD4C90032E64D /* Debug */,
+				94B7FA0F175DD4C90032E64D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 94B7F9DF175DD4C90032E64D /* Project object */;
+}
