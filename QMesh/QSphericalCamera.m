@@ -63,6 +63,14 @@
 - (void)moveUpByAngle:(double)angle
 {
     theta += angle;
+    NSLog(@"%f",theta);
+    
+    if (theta > 89.0 * S_PI / 180)
+        theta = 89.0 * S_PI / 180;
+    
+    if (theta < -89.0 * S_PI / 180)
+        theta = -89.0 * S_PI / 180;
+     
     [self computeCameraPosition];
     [self computeLocalCoordinateSystem];
 }

@@ -35,6 +35,8 @@
 		94EFF0121765980D00E6DC1D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EFF0111765980D00E6DC1D /* OpenGLES.framework */; };
 		94EFF0141765981A00E6DC1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EFF0131765981A00E6DC1D /* QuartzCore.framework */; };
 		94EFF0171765C70400E6DC1D /* QMeshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFF0161765C70400E6DC1D /* QMeshView.m */; };
+		94EFF262177EFE6500326143 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFF260177EFE6500326143 /* icon.png */; };
+		94EFF263177EFE6500326143 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFF261177EFE6500326143 /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +88,8 @@
 		94EFF0131765981A00E6DC1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		94EFF0151765C70400E6DC1D /* QMeshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMeshView.h; sourceTree = "<group>"; };
 		94EFF0161765C70400E6DC1D /* QMeshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMeshView.m; sourceTree = "<group>"; };
+		94EFF260177EFE6500326143 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		94EFF261177EFE6500326143 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,8 @@
 		94B7F9F1175DD4C90032E64D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				94EFF260177EFE6500326143 /* icon.png */,
+				94EFF261177EFE6500326143 /* icon@2x.png */,
 				94B7F9F2175DD4C90032E64D /* QMesh-Info.plist */,
 				94B7F9F3175DD4C90032E64D /* InfoPlist.strings */,
 				94B7F9F6175DD4C90032E64D /* main.m */,
@@ -288,6 +294,8 @@
 				94B7F9FF175DD4C90032E64D /* Default@2x.png in Resources */,
 				94B7FA01175DD4C90032E64D /* Default-568h@2x.png in Resources */,
 				94B7FA04175DD4C90032E64D /* MainStoryboard.storyboard in Resources */,
+				94EFF262177EFE6500326143 /* icon.png in Resources */,
+				94EFF263177EFE6500326143 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

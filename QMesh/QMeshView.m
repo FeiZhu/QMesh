@@ -337,25 +337,20 @@
         lastX = firstTranslation.x;
         lastY = firstTranslation.y;
     }
-    const double angle = 0.1;
-    const double factor = 0.005;
+    const double angle = 0.01;
+    const double factor = 0.002;
     double cameraRadius = [self.camera getCameraRadius];
     double panDistanceX = translatedPoint.x - lastX;
     double panDistanceY = translatedPoint.y - lastY;
+    //double aspectThreshold = 0.1;
     lastX = translatedPoint.x;
     lastY = translatedPoint.y;
     switch (recognizer.numberOfTouches)
     {
         case 1://rotate camera
             //NSLog(@"Swipe");
-            if(panDistanceX>0)
-                [self.camera moveRightByAngle:-angle];
-            else
-                [self.camera moveRightByAngle:angle];
-            if(panDistanceY>0)//move camera up
-                [self.camera moveUpByAngle:angle];
-            else
-                [self.camera moveUpByAngle:-angle];
+            [self.camera moveRightByAngle:-angle*panDistanceX];
+            [self.camera moveUpByAngle:angle*panDistanceY];
             break;
         case 3://pan camera
             //NSLog(@"Pan");
