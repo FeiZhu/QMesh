@@ -318,8 +318,10 @@
     if([recognizer state] == UIGestureRecognizerStateBegan)
         lastScale = 1.0;
     double scale = recognizer.scale - lastScale;
-    const double factor = 1.0;
-    double zoomDistance = [self.camera getCameraRadius]*scale*factor;
+    const double factor = 0.02;
+    double defaultCameraRadius = [self.camera getDefaultCameraRadius];
+    double currentCameraRadius = [self.camera getCameraRadius];
+    double zoomDistance = currentCameraRadius>defaultCameraRadius?currentCameraRadius*scale*factor:defaultCameraRadius*scale*factor;
     [self.camera zoomInByDistance:zoomDistance];
     //[self setupLighting];
     //redraw
@@ -355,7 +357,7 @@
             else
                 [self.camera moveUpByAngle:-angle];
             break;
-        case 2://pan camera
+        case 3://pan camera
             //NSLog(@"Pan");
             panDistanceX = panDistanceX*cameraRadius*factor;
             panDistanceY = panDistanceY*cameraRadius*factor;

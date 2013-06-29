@@ -26,8 +26,6 @@
     QVec3d *xAxis;
     QVec3d *yAxis;
     QVec3d *zAxis;
-    double movementSensitivity;
-
 }
 - (void)computeCameraPosition;
 - (void)computeLocalCoordinateSystem;
@@ -45,7 +43,6 @@
         defaultTheta = cameraLattitude/360*(2*S_PI);
         defaultFocusPosition = cameraFocusPosition;
         up = [[QVec3d alloc] initWithX:0 Y:1 Z:0];
-        movementSensitivity = 1.0;
         
         cameraPosition = [[QVec3d alloc] init];
         xAxis = [[QVec3d alloc] init];
@@ -58,23 +55,23 @@
 
 - (void)moveRightByAngle:(double)angle
 {
-    phi += angle*movementSensitivity;
+    phi += angle;
     [self computeCameraPosition];
     [self computeLocalCoordinateSystem];
 }
 
 - (void)moveUpByAngle:(double)angle
 {
-    theta += angle*movementSensitivity;
+    theta += angle;
     [self computeCameraPosition];
     [self computeLocalCoordinateSystem];
 }
 
 - (void)zoomInByDistance:(double)distance
 {
-    radius -= distance*movementSensitivity;
-    if(radius < fabs(movementSensitivity))
-        radius = movementSensitivity;
+    radius -= distance;
+    if(radius < 0.0)
+        radius = 0.0;
     [self computeCameraPosition];
     [self computeLocalCoordinateSystem];
 }

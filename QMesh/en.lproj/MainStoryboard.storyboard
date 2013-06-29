@@ -60,16 +60,17 @@
             <objects>
                 <viewController storyboardIdentifier="" id="4" customClass="QMeshViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="26" customClass="QMeshView">
-                        <rect key="frame" x="0.0" y="64" width="703" height="704"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="g8P-4L-Q0q">
-                                <rect key="frame" x="0.0" y="660" width="703" height="44"/>
+                                <rect key="frame" x="0.0" y="916" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="0b0-Dz-yUV"/>
                                     <barButtonItem style="plain" id="U7c-Sh-3Ma">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" segmentControlStyle="bar" selectedSegmentIndex="2" id="Sl2-zN-IeE">
-                                            <rect key="frame" x="97" y="6" width="209" height="35"/>
+                                            <rect key="frame" x="129" y="6" width="209" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Points"/>
@@ -83,7 +84,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="9QI-dT-O6k">
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" segmentControlStyle="bar" selectedSegmentIndex="1" id="LpR-9o-G0a">
-                                            <rect key="frame" x="316" y="6" width="115" height="35"/>
+                                            <rect key="frame" x="348" y="6" width="115" height="35"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Flat"/>
@@ -109,10 +110,11 @@
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="53"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="15" sceneMemberID="firstResponder"/>
             </objects>

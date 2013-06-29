@@ -40,11 +40,35 @@
 {
     NSMutableArray *textures;
     NSMutableArray *texturesLoad;
+    //VBOs for tirangles geometry mode, 1 VBO per group
+    NSMutableArray *solidPositionsVBO;
+    NSMutableArray *solidNormalsVBO;
+    NSMutableArray *solidTexturesVBO;
+    NSMutableArray *groupNumVertices;
+    //VBO for vertices geometry mode
+    GLuint verticesVBO;
+    //VBO for edges geometry mode
+    GLuint edgeIndicesVBO;
+    NSUInteger numIndices;
 }
 @property(strong, nonatomic) QMesh *mesh;
 @property(assign, nonatomic) NSUInteger renderMode;
 @property(assign, nonatomic) NSUInteger textureMode;
 @property(assign, nonatomic) BOOL texturesAllLoad;
+@property(assign, nonatomic) BOOL hasSolidVBO;
+@property(assign, nonatomic) BOOL hasVerticesVBO;
+@property(assign, nonatomic) BOOL hasEdgesVBO;
+@property(assign, nonatomic) BOOL warnMissingNormals;
+@property(assign, nonatomic) BOOL warnMissingFaceNormals;
+@property(assign, nonatomic) BOOL warnMissingTextureCoordinates;
+@property(assign, nonatomic) BOOL warnMissingTextures;
+- (void)createVBOsForSolidMode;
+- (void)deleteVBOsForSolidMode;
+- (void)updateNormalsBufferObject;
+- (void)createVBOsForVerticesMode;
+- (void)deleteVBOsForVerticesMode;
+- (void)createVBOsForEdgesMode;
+- (void)deleteVBOsForEdgesMode;
 - (void)renderInGeometryMode:(NSInteger)geometryMode RenderMode:(NSInteger)renderMode;
 - (void)loadTextures;
 @end
@@ -55,6 +79,13 @@
 @synthesize renderMode = _renderMode;
 @synthesize textureMode = _textureMode;
 @synthesize texturesAllLoad = _texturesAllLoad;
+@synthesize hasSolidVBO = _hasSolidVBO;
+@synthesize hasVerticesVBO = _hasVerticesVBO;
+@synthesize hasEdgesVBO = _hasEdgesVBO;
+@synthesize warnMissingNormals = _warnMissingNormals;
+@synthesize warnMissingFaceNormals = _warnMissingFaceNormals;
+@synthesize warnMissingTextureCoordinates = _warnMissingTextureCoordinates;
+@synthesize warnMissingTextures = _warnMissingTextures;
 
 - (id)initWithMesh:(QMesh *)mesh
 {
@@ -66,9 +97,376 @@
         self.texturesAllLoad = NO;
         textures = [[NSMutableArray alloc] init];
         texturesLoad = [[NSMutableArray alloc] init];
+        //no vbo created
+        self.hasSolidVBO = NO;
+        self.hasVerticesVBO = NO;
+        self.hasEdgesVBO = NO;
+        //no warning
+        self.warnMissingNormals = NO;
+        self.warnMissingFaceNormals = NO;
+        self.warnMissingTextureCoordinates = NO;
+        self.warnMissingTextures = NO;
     }
     return self;
 }
+
+- (void)dealloc
+{
+    [self deleteVBOsForSolidMode];
+    [self deleteVBOsForVerticesMode];
+    [self deleteVBOsForEdgesMode];
+}
+
+#pragma mark -
+
+- (void)createVBOsForSolidMode
+{
+    solidPositionsVBO = [[NSMutableArray alloc] init];
+    solidNormalsVBO = [[NSMutableArray alloc] init];
+    solidTexturesVBO = [[NSMutableArray alloc] init];
+    groupNumVertices = [[NSMutableArray alloc] init];
+    NSUInteger numGroups = [self.mesh getNumGroups];
+    for(NSUInteger i = 0; i < numGroups; ++i)
+    {
+        QGroup *group = [self.mesh getGroupAtIndex:i];
+        NSUInteger numFaces = [group getNumFaces];
+        NSMutableArray *mutableVertexArray = [[NSMutableArray alloc] init];
+        NSMutableArray *mutableNormalArray = [[NSMutableArray alloc] init];
+        NSMutableArray *mutableTextureArray = [[NSMutableArray alloc] init];
+        for(NSUInteger iFace = 0; iFace < numFaces; ++iFace)
+        {
+            QFace *face = [group getFaceAtIndex:iFace];
+            NSUInteger numVertices = [face getNumVertices];
+            QVertex *firstVertex = [face getVertexAtIndex:0];
+            QVec3d *firstPos = [self.mesh getPositionForVertex:firstVertex];
+            for(NSUInteger iVertex = 1; iVertex < numVertices-1; ++iVertex)
+            {
+                QVertex *vertex = [face getVertexAtIndex:iVertex];
+                QVertex *nextVertex = [face getVertexAtIndex:iVertex+1];
+                QVec3d *pos = [self.mesh getPositionForVertex:vertex];
+                QVec3d *nextPos = [self.mesh getPositionForVertex:nextVertex];
+                [mutableVertexArray addObject:firstPos];
+                [mutableVertexArray addObject:pos];
+                [mutableVertexArray addObject:nextPos];
+                //set normal
+                if(self.renderMode & MESHRENDER_FLAT)
+                {
+                    if(face.hasFaceNormal)
+                    {
+                        //set vertex normal as the face normal
+                        [mutableNormalArray addObject:face.faceNormal];
+                        [mutableNormalArray addObject:face.faceNormal];
+                        [mutableNormalArray addObject:face.faceNormal];
+                    }
+                    else
+                    {
+                        self.warnMissingFaceNormals = YES;
+                        QVec3d *arbitraryNormal = [[QVec3d alloc] initWithX:1.0 Y:0.0 Z:0.0];
+                        [mutableNormalArray addObject:arbitraryNormal];
+                        [mutableNormalArray addObject:arbitraryNormal];
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                }
+                if(self.renderMode & MESHRENDER_SMOOTH)
+                {
+                    QVec3d *arbitraryNormal = [[QVec3d alloc] initWithX:1.0 Y:0.0 Z:0.0];
+                    if(firstVertex.hasNormal)
+                    {
+                        QVec3d *nor = [self.mesh getNormalForVertex:firstVertex];
+                        [mutableNormalArray addObject:nor];
+                    }
+                    else
+                    {
+                        self.warnMissingNormals = YES;
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                    if(vertex.hasNormal)
+                    {
+                        QVec3d *nor = [self.mesh getNormalForVertex:vertex];
+                        [mutableNormalArray addObject:nor];
+                    }
+                    else
+                    {
+                        self.warnMissingNormals = YES;
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                    if(nextVertex.hasNormal)
+                    {
+                        QVec3d *nor = [self.mesh getNormalForVertex:nextVertex];
+                        [mutableNormalArray addObject:nor];
+                    }
+                    else
+                    {
+                        self.warnMissingNormals = YES;
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                }
+                //set texture coordinate
+                if(self.renderMode & MESHRENDER_TEXTURE)
+                {
+                    QVec3d *arbitraryTexture = [[QVec3d alloc] initWithOneEntry:0.0];
+                    if(firstVertex.hasTexture)
+                    {
+                        QVec3d *tex = [self.mesh getTextureCoordinateForVertex:firstVertex];
+                        [mutableTextureArray addObject:tex];
+                    }
+                    else
+                    {
+                        self.warnMissingTextureCoordinates = YES;
+                        [mutableTextureArray addObject:arbitraryTexture];
+                    }
+                    if(vertex.hasTexture)
+                    {
+                        QVec3d *tex = [self.mesh getTextureCoordinateForVertex:vertex];
+                        [mutableTextureArray addObject:tex];
+                    }
+                    else
+                    {
+                        self.warnMissingTextureCoordinates = YES;
+                        [mutableTextureArray addObject:arbitraryTexture];
+                    }
+                    if(nextVertex.hasTexture)
+                    {
+                        QVec3d *tex = [self.mesh getTextureCoordinateForVertex:nextVertex];
+                        [mutableTextureArray addObject:tex];
+                    }
+                    else
+                    {
+                        self.warnMissingTextureCoordinates = YES;
+                        [mutableTextureArray addObject:arbitraryTexture];
+                    }
+                    
+                }
+            }
+        }
+        NSUInteger numVertices = [mutableVertexArray count];
+        [groupNumVertices addObject:[NSNumber numberWithUnsignedInteger:numVertices]];
+        GLfloat *vertexArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
+        GLfloat *normalArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
+        GLfloat *textureArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*2);
+        for(NSUInteger idx = 0; idx < numVertices; ++idx)
+        {
+            QVec3d *pos = mutableVertexArray[idx];
+            QVec3d *nor = mutableNormalArray[idx];
+            vertexArray[3*idx+0] = pos.x;
+            vertexArray[3*idx+1] = pos.y;
+            vertexArray[3*idx+2] = pos.z;
+            normalArray[3*idx+0] = nor.x;
+            normalArray[3*idx+1] = nor.y;
+            normalArray[3*idx+2] = nor.z;
+            if(self.renderMode & MESHRENDER_TEXTURE)
+            {
+                QVec3d *tex = mutableTextureArray[idx];
+                textureArray[2*idx+0] = tex.x;
+                textureArray[2*idx+1] = tex.y;
+            }
+        }
+        GLuint posVBO,norVBO,texVBO;
+        glGenBuffers(1, &posVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, posVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*numVertices*3, vertexArray, GL_STATIC_DRAW);
+        free(vertexArray);
+        [solidPositionsVBO addObject:[NSNumber numberWithUnsignedInt:posVBO]];
+        glGenBuffers(1, &norVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, norVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*numVertices*3, normalArray, GL_STATIC_DRAW);
+        free(normalArray);
+        [solidNormalsVBO addObject:[NSNumber numberWithUnsignedInt:norVBO]];
+        glGenBuffers(1, &texVBO);
+        glBindBuffer(GL_ARRAY_BUFFER, texVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*numVertices*2, textureArray, GL_STATIC_DRAW);
+        free(textureArray);
+        [solidTexturesVBO addObject:[NSNumber numberWithUnsignedInt:texVBO]];
+    }
+    self.hasSolidVBO = YES;
+}
+
+- (void)deleteVBOsForSolidMode
+{
+    for(NSNumber *number in solidPositionsVBO)
+    {
+        GLuint posVBO = [number unsignedIntValue];
+        if(posVBO != 0)
+            glDeleteBuffers(1, &posVBO);
+    }
+    for(NSNumber *number in solidNormalsVBO)
+    {
+        GLuint norVBO = [number unsignedIntValue];
+        if(norVBO != 0)
+            glDeleteBuffers(1, &norVBO);
+    }
+    for(NSNumber *number in solidTexturesVBO)
+    {
+        GLuint texVBO = [number unsignedIntValue];
+        if(texVBO != 0)
+            glDeleteBuffers(1, &texVBO);
+    }
+    self.hasSolidVBO = NO;
+}
+
+- (void)updateNormalsBufferObject
+{
+    NSUInteger numGroups = [self.mesh getNumGroups];
+    for(NSUInteger i = 0; i < numGroups; ++i)
+    {
+        QGroup *group = [self.mesh getGroupAtIndex:i];
+        NSUInteger numFaces = [group getNumFaces];
+        NSMutableArray *mutableNormalArray = [[NSMutableArray alloc] init];
+        for(NSUInteger iFace = 0; iFace < numFaces; ++iFace)
+        {
+            QFace *face = [group getFaceAtIndex:iFace];
+            NSUInteger numVertices = [face getNumVertices];
+            QVertex *firstVertex = [face getVertexAtIndex:0];
+            for(NSUInteger iVertex = 1; iVertex < numVertices-1; ++iVertex)
+            {
+                QVertex *vertex = [face getVertexAtIndex:iVertex];
+                QVertex *nextVertex = [face getVertexAtIndex:iVertex+1];
+                //set normal
+                if(self.renderMode & MESHRENDER_FLAT)
+                {
+                    if(face.hasFaceNormal)
+                    {
+                        //set vertex normal as the face normal
+                        [mutableNormalArray addObject:face.faceNormal];
+                        [mutableNormalArray addObject:face.faceNormal];
+                        [mutableNormalArray addObject:face.faceNormal];
+                    }
+                    else
+                    {
+                        self.warnMissingFaceNormals = YES;
+                        QVec3d *arbitraryNormal = [[QVec3d alloc] initWithX:1.0 Y:0.0 Z:0.0];
+                        [mutableNormalArray addObject:arbitraryNormal];
+                        [mutableNormalArray addObject:arbitraryNormal];
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                }
+                if(self.renderMode & MESHRENDER_SMOOTH)
+                {
+                    QVec3d *arbitraryNormal = [[QVec3d alloc] initWithX:1.0 Y:0.0 Z:0.0];
+                    if(firstVertex.hasNormal)
+                    {
+                        QVec3d *nor = [self.mesh getNormalForVertex:firstVertex];
+                        [mutableNormalArray addObject:nor];
+                    }
+                    else
+                    {
+                        self.warnMissingNormals = YES;
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                    if(vertex.hasNormal)
+                    {
+                        QVec3d *nor = [self.mesh getNormalForVertex:vertex];
+                        [mutableNormalArray addObject:nor];
+                    }
+                    else
+                    {
+                        self.warnMissingNormals = YES;
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                    if(nextVertex.hasNormal)
+                    {
+                        QVec3d *nor = [self.mesh getNormalForVertex:nextVertex];
+                        [mutableNormalArray addObject:nor];
+                    }
+                    else
+                    {
+                        self.warnMissingNormals = YES;
+                        [mutableNormalArray addObject:arbitraryNormal];
+                    }
+                }
+            }
+        }
+        NSUInteger numVertices = [mutableNormalArray count];
+        [groupNumVertices addObject:[NSNumber numberWithUnsignedInteger:numVertices]];
+        GLfloat *normalArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
+        for(NSUInteger idx = 0; idx < numVertices; ++idx)
+        {
+            QVec3d *nor = mutableNormalArray[idx];
+            normalArray[3*idx+0] = nor.x;
+            normalArray[3*idx+1] = nor.y;
+            normalArray[3*idx+2] = nor.z;
+        }
+        GLuint norVBO = [(NSNumber*)solidNormalsVBO[i] unsignedIntValue];
+        glBindBuffer(GL_ARRAY_BUFFER, norVBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*numVertices*3, normalArray);
+        free(normalArray);
+    }
+}
+
+- (void)createVBOsForVerticesMode
+{
+    NSUInteger numVertices = [self.mesh getNumVertices];
+    GLfloat *vertices = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
+    for(NSUInteger i = 0; i < numVertices; ++i)
+    {
+        QVec3d *pos = [self.mesh getPositionForVertexAtIndex:i];
+        vertices[3*i+0] = pos.x;
+        vertices[3*i+1] = pos.y;
+        vertices[3*i+2] = pos.z;
+    }
+    glGenBuffers(1, &verticesVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*numVertices*3, vertices, GL_STATIC_DRAW);
+    free(vertices);
+    self.hasVerticesVBO = YES;
+}
+
+- (void)deleteVBOsForVerticesMode
+{
+    if(verticesVBO != 0)
+    {
+        glDeleteBuffers(1, &verticesVBO);
+        verticesVBO = 0;
+    }
+    self.hasVerticesVBO = NO;
+}
+
+- (void)createVBOsForEdgesMode
+{
+    NSUInteger numGroups = [self.mesh getNumGroups];
+    NSMutableArray *mutableIndexArray = [[NSMutableArray alloc] init];
+    for(NSUInteger iGroup = 0; iGroup < numGroups; ++iGroup)
+    {
+        QGroup *group = [self.mesh getGroupAtIndex:iGroup];
+        NSUInteger numFaces = [group getNumFaces];
+        for(NSUInteger iFace = 0; iFace < numFaces; ++iFace)
+        {
+            QFace *face = [group getFaceAtIndex:iFace];
+            NSUInteger numVertices = [face getNumVertices];
+            for(NSUInteger iVertex = 0; iVertex < numVertices; ++iVertex)
+            {
+                NSUInteger index = [self.mesh getGlobalIndexForVertex:iVertex OfFace:iFace InGroup:iGroup];
+                NSUInteger nextIndex = [self.mesh getGlobalIndexForVertex:(iVertex+1)%numVertices OfFace:iFace InGroup:iGroup];
+                [mutableIndexArray addObject:[NSNumber numberWithInteger:index]];
+                [mutableIndexArray addObject:[NSNumber numberWithInteger:nextIndex]];
+            }
+        }
+    }
+    numIndices = [mutableIndexArray count];
+    GLuint *edgeIndices = (GLuint*)malloc(sizeof(GLuint)*numIndices);
+    for(NSUInteger i = 0; i< numIndices; ++i)
+    {
+        NSNumber *number = mutableIndexArray[i];
+        edgeIndices[i] = [number unsignedIntValue];
+    }
+    glGenBuffers(1, &edgeIndicesVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, edgeIndicesVBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*numIndices, edgeIndices, GL_STATIC_DRAW);
+    free(edgeIndices);
+    self.hasEdgesVBO = YES;
+}
+
+- (void)deleteVBOsForEdgesMode
+{
+    if(edgeIndicesVBO != 0)
+    {
+        glDeleteBuffers(1, &edgeIndicesVBO);
+        edgeIndicesVBO = 0;
+    }
+    self.hasEdgesVBO = NO;
+}
+
+#pragma mark -
 
 - (void)render
 {
@@ -160,23 +558,26 @@
 
 - (void)flatShading
 {
+    BOOL shadingChanged = (self.renderMode & MESHRENDER_FLAT)? NO:YES;
     self.renderMode = self.renderMode | MESHRENDER_FLAT;
     self.renderMode = self.renderMode & (~MESHRENDER_SMOOTH);//cannot conflict
+    //update normal buffer object
+    if(shadingChanged)
+        [self updateNormalsBufferObject];
 }
 
 - (void)smoothShading
 {
+    BOOL shadingChanged = (self.renderMode & MESHRENDER_SMOOTH)? NO:YES;
     self.renderMode = self.renderMode | MESHRENDER_SMOOTH;
     self.renderMode = self.renderMode & (~MESHRENDER_FLAT);
+    //update normal buffer object
+    if(shadingChanged)
+        [self updateNormalsBufferObject];
 }
 
 - (void)renderInGeometryMode:(NSInteger)geometryMode RenderMode:(NSInteger)renderMode
 {
-    BOOL warnMissingNormals = NO;
-    BOOL warnMissingFaceNormals = NO;
-    BOOL warnMissingTextureCoordinates = NO;
-    BOOL warnMissingTextures = NO;
-    
     GLboolean lightingInitiallyEnabled = false;
     glGetBooleanv(GL_LIGHTING, &lightingInitiallyEnabled);
     
@@ -198,6 +599,8 @@
             glEnable(GL_POLYGON_OFFSET_FILL);
             glPolygonOffset(2.0, 2.0);
         }
+        if(self.hasSolidVBO == NO)
+            [self createVBOsForSolidMode];//create VBO if necessary
         NSUInteger numGroups = [self.mesh getNumGroups];
         for(NSUInteger i = 0; i < numGroups; ++i)
         {
@@ -221,10 +624,10 @@
                 if(group.materialIndex >= [textures count])
                 {
                     //textures are out of date
-                    warnMissingTextures = YES;
+                    self.warnMissingTextures = YES;
                 }
                 else if([(NSNumber*)texturesLoad[group.materialIndex] boolValue]== NO)
-                    warnMissingTextures = YES;
+                    self.warnMissingTextures = YES;
                 else
                 {
                     GLuint texture = [(NSNumber*)textures[group.materialIndex] unsignedIntegerValue];
@@ -236,151 +639,23 @@
                         glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
                 }
             }
-            NSUInteger numFaces = [group getNumFaces];
-            NSMutableArray *mutableVertexArray = [[NSMutableArray alloc] init];
-            NSMutableArray *mutableNormalArray = [[NSMutableArray alloc] init];
-            NSMutableArray *mutableTextureArray = [[NSMutableArray alloc] init];
-            for(NSUInteger iFace = 0; iFace < numFaces; ++iFace)
-            {
-                QFace *face = [group getFaceAtIndex:iFace];
-                NSUInteger numVertices = [face getNumVertices];
-                QVertex *firstVertex = [face getVertexAtIndex:0];
-                QVec3d *firstPos = [self.mesh getPositionForVertex:firstVertex];
-                for(NSUInteger iVertex = 1; iVertex < numVertices-1; ++iVertex)
-                {
-                    QVertex *vertex = [face getVertexAtIndex:iVertex];
-                    QVertex *nextVertex = [face getVertexAtIndex:iVertex+1];
-                    QVec3d *pos = [self.mesh getPositionForVertex:vertex];
-                    QVec3d *nextPos = [self.mesh getPositionForVertex:nextVertex];
-                    [mutableVertexArray addObject:firstPos];
-                    [mutableVertexArray addObject:pos];
-                    [mutableVertexArray addObject:nextPos];
-                    //set normal
-                    if(renderMode & MESHRENDER_FLAT)
-                    {
-                        if(face.hasFaceNormal)
-                        {
-                            //set vertex normal as the face normal
-                            [mutableNormalArray addObject:face.faceNormal];
-                            [mutableNormalArray addObject:face.faceNormal];
-                            [mutableNormalArray addObject:face.faceNormal];
-                        }
-                        else
-                        {
-                            warnMissingFaceNormals = YES;
-                            QVec3d *arbitraryNormal = [[QVec3d alloc] initWithX:1.0 Y:0.0 Z:0.0];
-                            [mutableNormalArray addObject:arbitraryNormal];
-                            [mutableNormalArray addObject:arbitraryNormal];
-                            [mutableNormalArray addObject:arbitraryNormal];
-                        }
-                    }
-                    if(renderMode & MESHRENDER_SMOOTH)
-                    {
-                        QVec3d *arbitraryNormal = [[QVec3d alloc] initWithX:1.0 Y:0.0 Z:0.0];
-                        if(firstVertex.hasNormal)
-                        {
-                            QVec3d *nor = [self.mesh getNormalForVertex:firstVertex];
-                            [mutableNormalArray addObject:nor];
-                        }
-                        else
-                        {
-                            warnMissingNormals = YES;
-                            [mutableNormalArray addObject:arbitraryNormal];
-                        }
-                        if(vertex.hasNormal)
-                        {
-                            QVec3d *nor = [self.mesh getNormalForVertex:vertex];
-                            [mutableNormalArray addObject:nor];
-                        }
-                        else
-                        {
-                            warnMissingNormals = YES;
-                            [mutableNormalArray addObject:arbitraryNormal];
-                        }
-                        if(nextVertex.hasNormal)
-                        {
-                            QVec3d *nor = [self.mesh getNormalForVertex:nextVertex];
-                            [mutableNormalArray addObject:nor];
-                        }
-                        else
-                        {
-                            warnMissingNormals = YES;
-                            [mutableNormalArray addObject:arbitraryNormal];
-                        }
-                    }
-                    //set texture coordinate
-                    if(renderMode & MESHRENDER_TEXTURE)
-                    {
-                        QVec3d *arbitraryTexture = [[QVec3d alloc] initWithOneEntry:0.0];
-                        if(firstVertex.hasTexture)
-                        {
-                            QVec3d *tex = [self.mesh getTextureCoordinateForVertex:firstVertex];
-                            [mutableTextureArray addObject:tex];
-                        }
-                        else
-                        {
-                            warnMissingTextureCoordinates = YES;
-                            [mutableTextureArray addObject:arbitraryTexture];
-                        }
-                        if(vertex.hasTexture)
-                        {
-                            QVec3d *tex = [self.mesh getTextureCoordinateForVertex:vertex];
-                            [mutableTextureArray addObject:tex];
-                        }
-                        else
-                        {
-                            warnMissingTextureCoordinates = YES;
-                            [mutableTextureArray addObject:arbitraryTexture];
-                        }
-                        if(nextVertex.hasTexture)
-                        {
-                            QVec3d *tex = [self.mesh getTextureCoordinateForVertex:nextVertex];
-                            [mutableTextureArray addObject:tex];
-                        }
-                        else
-                        {
-                            warnMissingTextureCoordinates = YES;
-                            [mutableTextureArray addObject:arbitraryTexture];
-                        }
-
-                    }
-                }
-            }
-            //now draw the face
-            NSUInteger numVertices = [mutableVertexArray count];
-            GLfloat *vertexArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
-            GLfloat *normalArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
-            GLfloat *textureArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*2);
-            for(NSUInteger idx = 0; idx < numVertices; ++idx)
-            {
-                QVec3d *pos = mutableVertexArray[idx];
-                QVec3d *nor = mutableNormalArray[idx];
-                vertexArray[3*idx+0] = pos.x;
-                vertexArray[3*idx+1] = pos.y;
-                vertexArray[3*idx+2] = pos.z;
-                normalArray[3*idx+0] = nor.x;
-                normalArray[3*idx+1] = nor.y;
-                normalArray[3*idx+2] = nor.z;
-                if(renderMode & MESHRENDER_TEXTURE)
-                {
-                    QVec3d *tex = mutableTextureArray[idx];
-                    textureArray[2*idx+0] = tex.x;
-                    textureArray[2*idx+1] = tex.y;
-                }
-            }
-            glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+            NSNumber *number = solidPositionsVBO[i];
+            glBindBuffer(GL_ARRAY_BUFFER, [number unsignedIntValue]);
+            glVertexPointer(3, GL_FLOAT, 0, 0);
             glEnableClientState(GL_VERTEX_ARRAY);
-            glNormalPointer(GL_FLOAT, 0, normalArray);
+            number = solidNormalsVBO[i];
+            glBindBuffer(GL_ARRAY_BUFFER, [number unsignedIntValue]);
+            glNormalPointer(GL_FLOAT, 0, 0);
             glEnableClientState(GL_NORMAL_ARRAY);
-            if(renderMode & MESHRENDER_TEXTURE)
+            if(self.renderMode & MESHRENDER_TEXTURE)
             {
-                glTexCoordPointer(2, GL_FLOAT, 0, textureArray);
+                number = solidTexturesVBO[i];
+                glBindBuffer(GL_ARRAY_BUFFER, [number unsignedIntValue]);
+                glTexCoordPointer(2, GL_FLOAT, 0, 0);
                 glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             }
-            glDrawArrays(GL_TRIANGLES, 0, numVertices);
-            free(vertexArray);
-            free(textureArray);
-            free(normalArray);
+            number = groupNumVertices[i];
+            glDrawArrays(GL_TRIANGLES, 0, [number unsignedIntValue]);
             glDisableClientState(GL_VERTEX_ARRAY);
             glDisableClientState(GL_NORMAL_ARRAY);
             if(renderMode & MESHRENDER_TEXTURE)
@@ -400,72 +675,40 @@
     glDisable(GL_LIGHTING);
     if(geometryMode & MESHRENDER_VERTICES)
     {
+        if(self.hasVerticesVBO == NO)
+            [self createVBOsForVerticesMode];
         glPointSize(2.0);
-        NSUInteger numVertices = [self.mesh getNumVertices];
-        GLfloat *vertexArray = (GLfloat*)malloc(sizeof(GLfloat) * numVertices * 3);
-        for(NSUInteger vIdx = 0; vIdx < numVertices; ++vIdx)
-        {
-            QVec3d *pos = [self.mesh getPositionForVertexAtIndex:vIdx];
-            vertexArray[3*vIdx+0] = pos.x;
-            vertexArray[3*vIdx+1] = pos.y;
-            vertexArray[3*vIdx+2] = pos.z;
-        }
-        glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
         glEnableClientState(GL_VERTEX_ARRAY);
-        glDrawArrays(GL_POINTS, 0, numVertices);
+        glDrawArrays(GL_POINTS, 0, [self.mesh getNumVertices]);
         glDisableClientState(GL_VERTEX_ARRAY);
-        free(vertexArray);
     }
     //render edges
     if(geometryMode & MESHRENDER_EDGES)
     {
         glPolygonOffset(-1.0, -1.0);
-        NSUInteger numGroups = [self.mesh getNumGroups];
-        NSMutableArray *mutableVertexArray = [[NSMutableArray alloc] init];
-        for(NSUInteger i = 0; i< numGroups; ++i)
-        {
-            QGroup *group = [self.mesh getGroupAtIndex:i];
-            for(NSUInteger iFace = 0; iFace < [group getNumFaces]; ++iFace)
-            {
-                QFace *face = [group getFaceAtIndex:iFace];
-                NSUInteger numVertices = [face getNumVertices];
-                for(NSUInteger iVertex = 0; iVertex < numVertices; ++iVertex)
-                {
-                    QVertex *vertex = [face getVertexAtIndex:iVertex];
-                    QVertex *nextVertex = [face getVertexAtIndex:(iVertex+1)%numVertices];
-                    QVec3d *pos = [self.mesh getPositionForVertex:vertex];
-                    QVec3d *nextPos = [self.mesh getPositionForVertex:nextVertex];
-                    [mutableVertexArray addObject:pos];
-                    [mutableVertexArray addObject:nextPos];
-                }
-            }
-        }
-        NSUInteger numVertices = [mutableVertexArray count];
-        GLfloat *vertexArray = (GLfloat*)malloc(sizeof(GLfloat)*numVertices*3);
-        for(NSUInteger i=0; i<numVertices; ++i)
-        {
-            QVec3d *pos = mutableVertexArray[i];
-            vertexArray[3*i+0] = pos.x;
-            vertexArray[3*i+1] = pos.y;
-            vertexArray[3*i+2] = pos.z;
-        }
-        glVertexPointer(3, GL_FLOAT, 0, vertexArray);
+        if(self.hasVerticesVBO == NO)
+            [self createVBOsForVerticesMode];//vertices data
+        if(self.hasEdgesVBO == NO)
+            [self createVBOsForEdgesMode];//edge index data
+        glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, edgeIndicesVBO);
         glEnableClientState(GL_VERTEX_ARRAY);
-        glDrawArrays(GL_LINES, 0, numVertices);
+        glDrawElements(GL_LINES, numIndices, GL_UNSIGNED_INT, 0);
         glDisableClientState(GL_VERTEX_ARRAY);
-        free(vertexArray);
     }
     if(lightingInitiallyEnabled)
         glEnable(GL_LIGHTING);
     
     //print warnings
-    //if(warnMissingNormals)
+    //if(self.warnMissingNormals)
         //NSLog(@"Warning: used SMOOTH rendering with missing vertex normal(s)");
-    //if(warnMissingFaceNormals)
+    //if(self.warnMissingFaceNormals)
         //NSLog(@"Warning: used FLAT rendering with missing face normal(s)");
-    //if(warnMissingTextureCoordinates)
+    //if(self.warnMissingTextureCoordinates)
         //NSLog(@"Warning: used TEXTURE rendering with missing texture coordinate(s)");
-    //if(warnMissingTextures)
+    //if(self.warnMissingTextures)
         //NSLog(@"Warning: used TEXTURE rendering with un-setup texture(s)");
 }
 
@@ -484,19 +727,19 @@
         }
         else
         {
-            CGImageRef textureImage = [[UIImage imageWithContentsOfFile:material.textureFilename] CGImage];
+            UIImage *textureImage = [UIImage imageWithContentsOfFile:material.textureFilename];
             if(textureImage == nil)
             {
                 //NSLog(@"Warning: unable to load texture %@",material.textureFilename);
                 return;
             }
-            NSUInteger width = CGImageGetWidth(textureImage);
-            NSUInteger height = CGImageGetHeight(textureImage);
+            NSUInteger width = CGImageGetWidth(textureImage.CGImage);
+            NSUInteger height = CGImageGetHeight(textureImage.CGImage);
             GLubyte *texData = (GLubyte*)malloc(width*height*4);
-            CGContextRef textureContent = CGBitmapContextCreate(texData, width, height, 8, width*4, CGImageGetColorSpace(textureImage), kCGImageAlphaPremultipliedLast);
+            CGContextRef textureContent = CGBitmapContextCreate(texData, width, height, 8, width*4, CGImageGetColorSpace(textureImage.CGImage), kCGImageAlphaPremultipliedLast);
             CGContextTranslateCTM(textureContent, 0, height);
             CGContextScaleCTM(textureContent, 1.0, -1.0);//very important: reverse y axis
-            CGContextDrawImage(textureContent, CGRectMake(0.0, 0.0, (float)width, (float)height), textureImage);
+            CGContextDrawImage(textureContent, CGRectMake(0.0, 0.0, (float)width, (float)height), textureImage.CGImage);
             CGContextRelease(textureContent);
             
             [texturesLoad addObject:[NSNumber numberWithBool:YES]];
