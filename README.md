@@ -15,3 +15,5 @@ QMesh
 
 2013.6.29: Improved rendering performance using VBO. Fixed some UI bugs.
 
+2013.6.30: add autorotation for iOS5. Improve pinch experience.
+
