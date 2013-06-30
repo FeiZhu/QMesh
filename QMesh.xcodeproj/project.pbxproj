@@ -37,6 +37,7 @@
 		94EFF0171765C70400E6DC1D /* QMeshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFF0161765C70400E6DC1D /* QMeshView.m */; };
 		94EFF262177EFE6500326143 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFF260177EFE6500326143 /* icon.png */; };
 		94EFF263177EFE6500326143 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFF261177EFE6500326143 /* icon@2x.png */; };
+		94EFF266177F46D700326143 /* QSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFF265177F46D700326143 /* QSplitViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,8 @@
 		94EFF0161765C70400E6DC1D /* QMeshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMeshView.m; sourceTree = "<group>"; };
 		94EFF260177EFE6500326143 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		94EFF261177EFE6500326143 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		94EFF264177F46D600326143 /* QSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSplitViewController.h; path = ../QSplitViewController.h; sourceTree = "<group>"; };
+		94EFF265177F46D700326143 /* QSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSplitViewController.m; path = ../QSplitViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +191,8 @@
 				94B7F9F9175DD4C90032E64D /* QAppDelegate.h */,
 				94B7F9FA175DD4C90032E64D /* QAppDelegate.m */,
 				94B7FA02175DD4C90032E64D /* MainStoryboard.storyboard */,
+				94EFF264177F46D600326143 /* QSplitViewController.h */,
+				94EFF265177F46D700326143 /* QSplitViewController.m */,
 				94B7FA05175DD4C90032E64D /* QFileViewController.h */,
 				94B7FA06175DD4C90032E64D /* QFileViewController.m */,
 				94B7FA08175DD4C90032E64D /* QMeshViewController.h */,
@@ -341,6 +346,7 @@
 				94C726E7176EFE3500374A60 /* QDDFileReader.m in Sources */,
 				942031331772143100833C47 /* QMeshRender.m in Sources */,
 				94C952D317796DC500721CDF /* QVertexFaceNeighbor.m in Sources */,
+				94EFF266177F46D700326143 /* QSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

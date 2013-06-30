@@ -81,7 +81,7 @@
         //cameraRadius = 4*meshRadius, cameraFocusPosition = meshCentroid
         double meshRadius;
         QVec3d *meshCentroid;
-        [self.curMesh getMeshCentroid:&meshCentroid Radius:&meshRadius];
+        [_curMesh getMeshCentroid:&meshCentroid Radius:&meshRadius];
         self.camera = [[QSphericalCamera alloc] initWithCameraRadius:(4.0*meshRadius) Longitude:0.0 Lattitude:0.0 FocusPositon:meshCentroid];
         //update the frustum and light according to current camera
         [self setupView];
@@ -155,6 +155,7 @@
 //set up lighting according to the position of camera
 - (void)setupLighting
 {
+    glDisable(GL_LIGHTING);
     GLfloat lightPosition[] = {1.0,1.0,1.0,0.0};//default position
     if(self.camera)
     {
@@ -173,12 +174,12 @@
     glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
     //light position relative to camera position: rotate around y 45 degrees, rotate around x -45 degrees
     //all counter clockwise
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glRotatef(45.0, 0.0, 1.0, 0.0);
-    glRotatef(-45.0, 1.0, 0.0, 0.0);
+    //glMatrixMode(GL_MODELVIEW);
+    //glPushMatrix();
+    //glRotatef(45.0, 0.0, 1.0, 0.0);
+    //glRotatef(-45.0, 1.0, 0.0, 0.0);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-    glPopMatrix();
+    //glPopMatrix();
     
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -318,7 +319,7 @@
     if([recognizer state] == UIGestureRecognizerStateBegan)
         lastScale = 1.0;
     double scale = recognizer.scale - lastScale;
-    const double factor = 0.02;
+    const double factor = 0.01;
     double defaultCameraRadius = [self.camera getDefaultCameraRadius];
     double currentCameraRadius = [self.camera getCameraRadius];
     double zoomDistance = currentCameraRadius>defaultCameraRadius?currentCameraRadius*scale*factor:defaultCameraRadius*scale*factor;
