@@ -29,6 +29,7 @@
 		94B7FA15175E2C270032E64D /* QMeshLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA14175E2C270032E64D /* QMeshLoader.m */; };
 		94B7FA18175E2C520032E64D /* QSphericalCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA17175E2C520032E64D /* QSphericalCamera.m */; };
 		94B7FA1B175E2C720032E64D /* QObjMeshLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7FA1A175E2C720032E64D /* QObjMeshLoader.m */; };
+		94BEC1351793A3DC00FDB6B6 /* QSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BEC1341793A3DC00FDB6B6 /* QSplitViewController.m */; };
 		94C726E7176EFE3500374A60 /* QDDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C726E6176EFE3500374A60 /* QDDFileReader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		94C952D317796DC500721CDF /* QVertexFaceNeighbor.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C952D217796DC500721CDF /* QVertexFaceNeighbor.m */; };
 		94CBC996176C4A880063D29E /* QVec3dUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CBC995176C4A880063D29E /* QVec3dUtility.m */; };
@@ -37,7 +38,6 @@
 		94EFF0171765C70400E6DC1D /* QMeshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFF0161765C70400E6DC1D /* QMeshView.m */; };
 		94EFF262177EFE6500326143 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFF260177EFE6500326143 /* icon.png */; };
 		94EFF263177EFE6500326143 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EFF261177EFE6500326143 /* icon@2x.png */; };
-		94EFF266177F46D700326143 /* QSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EFF265177F46D700326143 /* QSplitViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +79,8 @@
 		94B7FA17175E2C520032E64D /* QSphericalCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSphericalCamera.m; sourceTree = "<group>"; };
 		94B7FA19175E2C720032E64D /* QObjMeshLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QObjMeshLoader.h; sourceTree = "<group>"; };
 		94B7FA1A175E2C720032E64D /* QObjMeshLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QObjMeshLoader.m; sourceTree = "<group>"; };
+		94BEC1331793A3DC00FDB6B6 /* QSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSplitViewController.h; sourceTree = "<group>"; };
+		94BEC1341793A3DC00FDB6B6 /* QSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSplitViewController.m; sourceTree = "<group>"; };
 		94C726E5176EFE3500374A60 /* QDDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDDFileReader.h; sourceTree = "<group>"; };
 		94C726E6176EFE3500374A60 /* QDDFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDDFileReader.m; sourceTree = "<group>"; };
 		94C952D117796DC500721CDF /* QVertexFaceNeighbor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QVertexFaceNeighbor.h; sourceTree = "<group>"; };
@@ -91,8 +93,6 @@
 		94EFF0161765C70400E6DC1D /* QMeshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMeshView.m; sourceTree = "<group>"; };
 		94EFF260177EFE6500326143 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		94EFF261177EFE6500326143 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		94EFF264177F46D600326143 /* QSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSplitViewController.h; path = ../QSplitViewController.h; sourceTree = "<group>"; };
-		94EFF265177F46D700326143 /* QSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSplitViewController.m; path = ../QSplitViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,12 +191,12 @@
 				94B7F9F9175DD4C90032E64D /* QAppDelegate.h */,
 				94B7F9FA175DD4C90032E64D /* QAppDelegate.m */,
 				94B7FA02175DD4C90032E64D /* MainStoryboard.storyboard */,
-				94EFF264177F46D600326143 /* QSplitViewController.h */,
-				94EFF265177F46D700326143 /* QSplitViewController.m */,
 				94B7FA05175DD4C90032E64D /* QFileViewController.h */,
 				94B7FA06175DD4C90032E64D /* QFileViewController.m */,
 				94B7FA08175DD4C90032E64D /* QMeshViewController.h */,
 				94B7FA09175DD4C90032E64D /* QMeshViewController.m */,
+				94BEC1331793A3DC00FDB6B6 /* QSplitViewController.h */,
+				94BEC1341793A3DC00FDB6B6 /* QSplitViewController.m */,
 				94EFF0151765C70400E6DC1D /* QMeshView.h */,
 				94EFF0161765C70400E6DC1D /* QMeshView.m */,
 				94C726E5176EFE3500374A60 /* QDDFileReader.h */,
@@ -346,7 +346,7 @@
 				94C726E7176EFE3500374A60 /* QDDFileReader.m in Sources */,
 				942031331772143100833C47 /* QMeshRender.m in Sources */,
 				94C952D317796DC500721CDF /* QVertexFaceNeighbor.m in Sources */,
-				94EFF266177F46D700326143 /* QSplitViewController.m in Sources */,
+				94BEC1351793A3DC00FDB6B6 /* QSplitViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
