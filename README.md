@@ -17,3 +17,12 @@ QMesh
 
 2013.6.30: add autorotation for iOS5. Improve pinch experience.
 
+<b>ScreenShots</b>:
+
+[Fish with texture](./screenshots/QMesh_fish.png)
+
+[Car with material, flat shading](./screenshots/QMesh_car_flat.png)
+
+[Car portrait view, smooth shading](./screenshots/QMesh_car_portrait.png)
+
+[Delete file](./screenshots/QMesh_car_delete.png)
